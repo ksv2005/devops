@@ -6,3 +6,10 @@
         name: git
         state: absent
       become: yes
+
+    - name: remove git config
+      ansible.builtin.file:
+        state: absent
+        path: "/home/{{ item.name }}/.gitconfig"
+      loop: "{{ users }}"
+      become: yes

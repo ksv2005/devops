@@ -1,3 +1,7 @@
 nginx_port: 80
 root_dir: /usr/share/nginx/html
 server_name: "{{ ansible_hostname }}"
+users:
+  - { name: jaime, email: jaime@jaime.com }
+  - { name: sansa, email: sansa@sansa.com }
+  - { name: robert, email: robert@robert.com }

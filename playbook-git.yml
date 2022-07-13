@@ -9,6 +9,20 @@
       become: yes
       tags: git
 
+    - name: add test users
+      ansible.builtin.user:
+        name: "{{ item.name }}"
+        state: present
+      loop: "{{ users }}"
+      become: yes
+
+    - name: update git config
+      ansible.builtin.template:
+        src: templates/.gitconfig
+        dest: "/home/{{ item.name }}/.gitconfig"
+      loop: "{{ users }}"
+      become: yes
+
     - name: update cache apt
       ansible.builtin.apt:
         update_cache: yes
