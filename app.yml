@@ -1,0 +1,4 @@
+- hosts: webservers
+  roles:
+    - name: nginxinc.nginx
+      version: "0.16.0"
