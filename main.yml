@@ -1,0 +1,5 @@
+- name: Include play git
+  ansible.builtin.import_playbook: playbook-git.yml
+
+- name: Include play nginx
+  ansible.builtin.import_playbook: playbook-nginx.yml

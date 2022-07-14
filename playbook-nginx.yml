@@ -1,5 +1,16 @@
 - hosts: webservers
   tasks:
+    - name: install cowsay
+      ansible.builtin.apt:
+        name: cowsay
+        state: latest
+      become: yes
+      when: ansible_os_family == "Debian"
+
+    - ansible.builtin.shell: cowsay "Hello, from web server!"
+      register: cowsay_result
+      when: ansible_os_family == "Debian"
+
     - name: install nginx
       ansible.builtin.apt:
         name: nginx
@@ -9,9 +20,10 @@
 
     - name: copy index.html
       ansible.builtin.template:
-        src: files/index.html
+        src: templates/index.html
         dest: "{{ root_dir }}/index.html"
       become: yes
+      when: ansible_os_family == "Debian"
 
     - name: update nginx config
       ansible.builtin.template:
@@ -20,6 +32,7 @@
       notify:
         - restart nginx
       become: yes
+      when: ansible_os_family == "Debian"
 
   handlers:
     - name: restart nginx
