@@ -5,3 +5,4 @@ users:
   - { name: jaime, email: jaime@jaime.com }
   - { name: sansa, email: sansa@sansa.com }
   - { name: robert, email: robert@robert.com }
+custom_message: "This is server {{ ansible_hostname }}"
