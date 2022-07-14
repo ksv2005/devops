@@ -7,7 +7,5 @@ users:
   - { name: robert, email: robert@robert.com }
 custom_message: "This is server {{ ansible_hostname }}"
 database_name: postgres
-database_username: postgres
-database_password: postgres
 database_port: 5432
 database_host: localhost
