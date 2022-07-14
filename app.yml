@@ -1,7 +1,49 @@
 - hosts: webservers
   become: yes
-  roles:
-    - name: geerlingguy.nodejs
-      nodejs_install_npm_user: root
-      nodejs_version: "16.x"
-    - role: geerlingguy.postgresql
+#  roles:
+#    - name: geerlingguy.nodejs
+#      nodejs_install_npm_user: root
+#      nodejs_version: "16.x"
+#    - role: geerlingguy.postgresql
+  tasks:
+    - name: Clone [js-fastify-blog]
+      ansible.builtin.git:
+        repo: https://github.com/hexlet-components/js-fastify-blog.git
+        dest: ~/js-fastify-blog
+    - name: Copy env
+      ansible.builtin.template:
+        src: templates/.env
+        dest: ~/js-fastify-blog/.env
+    - name: "Create app database"
+      postgresql_db:
+        state: present
+        name: "{{ database_name }}"
+      become: yes
+      become_user: postgres
+
+    - name: "Create db user"
+      postgresql_user:
+        state: present
+        name: "{{ database_username }}"
+        password: "{{ database_password }}"
+      become: yes
+      become_user: postgres
+
+    - name: "Grant db user access to app db"
+      postgresql_privs:
+        type: database
+        database: "{{ database_name }}"
+        roles: "{{ database_username }}"
+        grant_option: no
+        privs: all
+      become: yes
+      become_user: postgres
+
+    - name: Install packages based on package.json.
+      npm:
+        path: ~/js-fastify-blog
+        ci: yes
+
+  handlers:
+    - name: restart postgres
+      service: name=postgresql state=restarted
