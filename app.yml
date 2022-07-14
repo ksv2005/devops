@@ -1,4 +1,7 @@
 - hosts: webservers
+  become: yes
   roles:
-    - name: nginxinc.nginx
-      version: "0.16.0"
+    - name: geerlingguy.nodejs
+      nodejs_install_npm_user: root
+      nodejs_version: "16.x"
+    - role: geerlingguy.postgresql
