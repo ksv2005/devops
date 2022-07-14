@@ -1,10 +1,10 @@
 - hosts: webservers
   become: yes
-#  roles:
-#    - name: geerlingguy.nodejs
-#      nodejs_install_npm_user: root
-#      nodejs_version: "16.x"
-#    - role: geerlingguy.postgresql
+  roles:
+    - name: geerlingguy.nodejs
+      nodejs_install_npm_user: root
+      nodejs_version: "16.x"
+    - role: geerlingguy.postgresql
   tasks:
     - name: Clone [js-fastify-blog]
       ansible.builtin.git:
