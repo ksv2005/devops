@@ -1,5 +1,11 @@
 - hosts: webservers
   tasks:
+    - name: Update and upgrade apt packages
+      ansible.builtin.apt:
+        update_cache: yes
+      become: yes
+      when: ansible_os_family == "Debian"
+
     - name: install cowsay
       ansible.builtin.apt:
         name: cowsay
